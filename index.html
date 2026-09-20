@@ -92,6 +92,36 @@
   .gen-row{display:flex;gap:8px;margin-top:10px}
   .gen-row button{flex:1;border:none;border-radius:14px;padding:12px;font-size:14px;font-weight:600;color:#fff;cursor:pointer;background:linear-gradient(135deg,var(--brand-1),var(--brand-2))}
   .gen-row button:hover{filter:brightness(1.05)}
+  .gen-row .secondary-cta{flex:0 0 112px;background:#f3efff;color:#6b57c9;border:1px solid #e4dbff}
+  .action-bar{display:flex;gap:7px;flex-wrap:wrap;padding:10px 18px 2px}
+  .action-btn{border:1px solid #e6defc;background:#faf8ff;color:#5a4b8a;border-radius:999px;padding:7px 11px;font-size:12px;cursor:pointer;transition:.2s}
+  .action-btn:hover,.action-btn.active{background:#eee7ff;border-color:#b99cff;transform:translateY(-1px)}
+  .chat-log{display:flex;flex-direction:column;gap:8px;max-height:210px;overflow:auto;padding:2px 2px 10px}
+  .chat-bubble{display:flex;flex-direction:column;gap:3px;max-width:88%;padding:9px 11px;border-radius:14px;font-size:13px;line-height:1.5;animation:chatIn .25s ease}
+  .chat-bubble b{font-size:10px;letter-spacing:.04em;opacity:.66}
+  .pet-bubble{align-self:flex-start;background:#f4f0ff;border:1px solid #e8defe;color:#4d407b;border-bottom-left-radius:5px}
+  .user-bubble{align-self:flex-end;background:linear-gradient(135deg,#7668ff,#a25cff);color:#fff;border-bottom-right-radius:5px}
+  .user-bubble b{opacity:.8}
+  @keyframes chatIn{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+  .fragment-heading{border-top:1px solid var(--line)}
+  .fragment-lab{padding:14px 18px 16px}
+  .fragment-empty{padding:14px;border:1px dashed #ded5f7;border-radius:14px;color:var(--muted);font-size:12px;line-height:1.5;background:#fcfbff}
+  .fragment-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .fragment-card{overflow:hidden;border:1px solid #ece5fb;border-radius:14px;background:#fff;box-shadow:0 5px 16px rgba(80,60,140,.06)}
+  .fragment-thumb{position:relative;height:112px;overflow:hidden;background:linear-gradient(135deg,#7b65ed,#ef8fc8);display:grid;place-items:center;color:#fff;cursor:pointer}
+  .fragment-thumb.scene-sea{background:linear-gradient(160deg,#8fd8ff,#1f6fb8)}
+  .fragment-thumb.scene-forest{background:linear-gradient(160deg,#d6f6d0,#2f9e5f)}
+  .fragment-thumb.scene-star{background:linear-gradient(160deg,#241b52,#8f5bff)}
+  .fragment-thumb.scene-rain{background:linear-gradient(160deg,#d4dced,#5c7398)}
+  .fragment-thumb.scene-party{background:linear-gradient(160deg,#ffd6ee,#b96fd6)}
+  .fragment-thumb.scene-city{background:linear-gradient(160deg,#1b1b33,#5a4b8a)}
+  .fragment-thumb:before,.fragment-thumb:after{content:'';position:absolute;width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,.17);filter:blur(2px);animation:filmFloat 5s ease-in-out infinite}
+  .fragment-thumb:before{left:10%;top:20%}.fragment-thumb:after{right:5%;bottom:-30%;animation-delay:-2s}
+  .fragment-thumb.is-playing:before{animation-duration:1.2s}.fragment-thumb.is-playing:after{animation-duration:1.5s}
+  @keyframes filmFloat{0%,100%{transform:translate3d(0,0,0) scale(.9)}50%{transform:translate3d(18px,-10px,0) scale(1.15)}}
+  .film-mark{position:relative;z-index:1;width:38px;height:38px;border-radius:50%;display:grid;place-items:center;background:rgba(24,17,57,.55);font-size:17px;padding-left:2px;box-shadow:0 4px 12px rgba(24,17,57,.25)}
+  .fragment-info{padding:9px 10px}.fragment-info b{display:block;font-size:12px;color:var(--ink);margin-bottom:3px}.fragment-info span{display:block;font-size:11px;color:var(--muted);line-height:1.45}.fragment-info button{margin-top:7px;border:1px solid #e4dbff;background:#f7f2ff;color:#6b57c9;border-radius:999px;padding:5px 9px;font-size:11px;cursor:pointer}
+  @media(max-width:560px){.fragment-grid{grid-template-columns:1fr}.gen-row .secondary-cta{flex:0 0 92px;padding-left:7px;padding-right:7px}}
 
   .lore{padding:14px 18px}
   .lore-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
@@ -130,7 +160,7 @@
 
   <div class="grid">
     <section class="panel">
-      <div class="panel-h"><span class="dot"></span>我们的时光 <span class="sub">拖拽可 360° 看它</span></div>
+            <div class="panel-h"><span class="dot"></span>我们的时光 <span class="sub">拖拽转动 · 点击动作 · 对话都会触发反应</span></div>
       <div class="stage scene-cloud" id="stage">
         <div class="particles" id="particles"></div>
         <span class="hint" id="hint">在右侧写下这一刻，点击「收藏时光碎片」</span>
@@ -151,6 +181,12 @@
       </div>
 
       <div class="action-note" id="actionNote">当前动作：<b>平静地待在你旁边</b></div>
+      <div class="action-bar" id="actionBar" aria-label="快捷动作">
+        <button class="action-btn" data-action="comfort">🤲 抱抱我</button>
+        <button class="action-btn" data-action="happy">✨ 夸夸小妙</button>
+        <button class="action-btn" data-action="excited">🎉 一起玩</button>
+        <button class="action-btn" data-action="sleep">🌙 晚安</button>
+      </div>
       <div class="bars">
         <div class="bar-row"><span class="bar-label">星光/陪伴值</span><div class="bar"><div class="bar-fill pink" id="bondFill"></div></div><span class="bar-val" id="bondVal">20</span></div>
         <div class="bar-row"><span class="bar-label">时光收藏</span><div class="bar"><div class="bar-fill" id="loreFill"></div></div><span class="bar-val" id="loreVal">2/14</span></div>
@@ -158,17 +194,26 @@
     </section>
 
     <section class="panel">
-      <div class="panel-h"><span class="dot"></span>写下我们的故事</div>
+      <div class="panel-h"><span class="dot"></span>和小妙聊天 <span class="sub">自然语言对话陪伴</span></div>
       <div class="story">
-        <textarea id="storyInput" placeholder="比如：那天下雨，小妙陪我在窗边坐了很久…" maxlength="120"></textarea>
-        <div class="tpl" id="tpl">
-          <button>去海边</button>
-          <button>森林冒险</button>
-          <button>星港的秘密</button>
-          <button>雨天陪伴</button>
-          <button>生日惊喜</button>
+        <div class="chat-log" id="chatLog" aria-live="polite">
+          <div class="chat-bubble pet-bubble"><b>小妙</b><span>我在这里。你现在想聊天，还是让我们把这一刻拍成一段时光碎片？</span></div>
         </div>
-        <div class="gen-row"><button id="genBtn">✨ 收藏时光碎片</button></div>
+        <textarea id="storyInput" placeholder="和小妙说点什么，例如：今天有点累，陪我安静一会儿…" maxlength="240"></textarea>
+        <div class="tpl" id="tpl">
+          <button>陪我聊聊今天</button>
+          <button>去海边走走</button>
+          <button>讲讲星港的秘密</button>
+          <button>我有点难过</button>
+          <button>给我一个惊喜</button>
+        </div>
+        <div class="gen-row"><button id="sendBtn" class="secondary-cta">发送消息</button><button id="genBtn">✨ 生成时光碎片视频</button></div>
+      </div>
+
+      <div class="panel-h fragment-heading"><span class="dot"></span>时光碎片 <span class="sub">把对话变成世界观视频素材</span></div>
+      <div class="fragment-lab" id="fragmentLab">
+        <div class="fragment-empty" id="fragmentEmpty">和小妙聊过的片段，会在这里生成可继续扩展的世界观素材。</div>
+        <div class="fragment-grid" id="fragmentGrid"></div>
       </div>
 
       <div class="panel-h" style="border-top:1px solid var(--line)"><span class="dot"></span>拾光匣 <span class="sub">每一段陪伴都留下痕迹</span></div>
@@ -193,6 +238,7 @@
   var loreFill=document.getElementById('loreFill'), loreVal=document.getElementById('loreVal');
   var dayStat=document.getElementById('dayStat'), starStat=document.getElementById('starStat'), loreStat=document.getElementById('loreStat');
   var storyInput=document.getElementById('storyInput'), genBtn=document.getElementById('genBtn');
+  var chatLog=document.getElementById('chatLog'), sendBtn=document.getElementById('sendBtn'), fragmentEmpty=document.getElementById('fragmentEmpty'), fragmentGrid=document.getElementById('fragmentGrid');
   var prevBtn=document.getElementById('prevBtn'), playBtn=document.getElementById('playBtn'), nextBtn=document.getElementById('nextBtn');
   var dotsEl=document.getElementById('dots'), sceneCount=document.getElementById('sceneCount');
 
@@ -341,8 +387,63 @@
     addBond(8+Math.floor(Math.random()*6));
   }
 
-  genBtn.addEventListener('click',function(){generate(storyInput.value);});
-  document.querySelectorAll('.tpl button').forEach(function(b){b.addEventListener('click',function(){storyInput.value=b.textContent;generate(b.textContent);});});
+  function escapeHtml(text){return String(text).replace(/[&<>'"]/g,function(ch){return {'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch];});}
+  function appendChat(role,text){
+    var bubble=document.createElement('div');
+    bubble.className='chat-bubble '+(role==='user'?'user-bubble':'pet-bubble');
+    bubble.innerHTML='<b>'+(role==='user'?'\u4f60':'\u5c0f\u5999')+'</b><span>'+escapeHtml(text)+'</span>';
+    chatLog.appendChild(bubble); chatLog.scrollTop=chatLog.scrollHeight;
+  }
+  function replyFor(text,action){
+    if(action==='comfort') return '\u6211\u542c\u89c1\u4e86\u3002\u5148\u4e0d\u7528\u6025\u7740\u89e3\u51b3\uff0c\u9760\u8fc7\u6765\u4e00\u70b9\uff0c\u6211\u966a\u4f60\u628a\u8fd9\u53e3\u6c14\u6162\u6162\u547c\u51fa\u53bb\u3002';
+    if(action==='happy') return '\u6536\u5230\u4f60\u7684\u5938\u5956\u5566\uff01\u8fd9\u9897\u5c0f\u5c0f\u7684\u661f\u5149\uff0c\u6211\u4f1a\u597d\u597d\u6536\u8fdb\u6211\u4eec\u7684\u661f\u6e2f\u3002';
+    if(action==='excited') return '\u597d\u5440\uff01\u6211\u5df2\u7ecf\u628a\u5c3e\u5df4\u6447\u8d77\u6765\u4e86\u3002\u4eca\u5929\u60f3\u53bb\u6d77\u8fb9\u3001\u68ee\u6797\uff0c\u8fd8\u662f\u4e91\u7aef\u661f\u6e2f\uff1f';
+    if(action==='sleep') return '\u665a\u5b89\u3002\u628a\u4eca\u5929\u4ea4\u7ed9\u591c\u8272\u5427\uff0c\u6211\u4f1a\u66ff\u4f60\u5b88\u7740\u8fd9\u4e00\u5c0f\u7247\u661f\u5149\u3002';
+    if(action==='hungry') return '\u809a\u5b50\u997f\u4e86\u5417\uff1f\u90a3\u6211\u4eec\u5148\u60f3\u8c61\u4e00\u5757\u70ed\u4e4e\u4e4e\u7684\u5c0f\u70b9\u5fc3\uff0c\u5403\u9971\u518d\u7ee7\u7eed\u5192\u9669\u3002';
+    if(/[\u8c22\u8c22\u611f\u8c22]/.test(text)) return '\u4e0d\u7528\u5ba2\u6c14\u5440\uff0c\u80fd\u966a\u5230\u4f60\u5c31\u662f\u6211\u4eca\u5929\u6536\u96c6\u5230\u7684\u6700\u597d\u661f\u5149\u3002';
+    if(/[\u4f60\u597d\u55e8\u5728\u5417]/.test(text)) return '\u6211\u5728\uff0c\u968f\u65f6\u90fd\u53ef\u4ee5\u53eb\u6211\u3002\u4eca\u5929\u7684\u4f60\uff0c\u60f3\u88ab\u600e\u6837\u966a\u7740\uff1f';
+    return '\u6211\u628a\u8fd9\u53e5\u8bdd\u653e\u8fdb\u5fc3\u91cc\u5566\u3002\u8981\u4e0d\u8981\u628a\u5b83\u7ee7\u7eed\u5199\u6210\u5c5e\u4e8e\u6211\u4eec\u7684\u4e16\u754c\uff1f';
+  }
+  function actionForText(text){
+    if(/[\u62b1\u5b89\u6170\u96be\u8fc7\u4f24\u5fc3\u59d4\u5c48\u7d2f\u966a\u6211\u5b89\u9759\u4e0d\u5f00\u5fc3]/.test(text)) return 'comfort';
+    if(/[\u5938\u559c\u6b22\u7231\u4f60\u8c22\u8c22\u611f\u8c22\u5f00\u5fc3\u68d2]/.test(text)) return 'happy';
+    if(/[\u73a9\u51fa\u53d1\u6d77\u68ee\u6797\u5192\u9669\u60ca\u559c\u4e00\u8d77]/.test(text)) return 'excited';
+    if(/[\u665a\u5b89\u7761\u56f0\u4f11\u606f]/.test(text)) return 'sleep';
+    if(/[\u997f\u5403\u70b9\u5fc3]/.test(text)) return 'hungry';
+    return 'talk';
+  }
+  function reactToMessage(text){
+    var action=actionForText(text); applyPose(action); addBond(action==='talk'?2:4);
+    narrTitle.textContent='\u5bf9\u8bdd\u53cd\u5e94'; narrText.textContent='\u5c0f\u5999\u542c\u89c1\u4e86\uff1a\u300c'+text+'\u300d'; return action;
+  }
+  function maybeOpenStory(text){
+    if(/[\u6d77\u6d6a\u6c99\u6ee9]/.test(text)) return stories.sea;
+    if(/[\u68ee\u6797\u6811\u7cbe\u7075\u5192\u9669]/.test(text)) return stories.forest;
+    if(/[\u661f\u6e2f\u661f\u7403\u5929\u7a7a\u6d41\u661f\u79d8\u5bc6]/.test(text)) return stories.star;
+    if(/[\u96e8\u4e0b\u96e8]/.test(text)) return stories.rain;
+    if(/[\u751f\u65e5\u793c\u7269\u60ca\u559c\u86cb\u7cd5]/.test(text)) return stories.birthday;
+    return null;
+  }
+  function sendMessage(){
+    var text=storyInput.value.trim(); if(!text) return;
+    appendChat('user',text); var action=reactToMessage(text); var story=maybeOpenStory(text);
+    if(story){ loadStory(story); var newIdx=unlock(story.unlocks); renderLore(newIdx); }
+    window.setTimeout(function(){appendChat('pet',replyFor(text,action));},180); storyInput.value='';
+  }
+  function createFragment(story,seed){
+    var sc=story.scenes[Math.min(1,story.scenes.length-1)], card=document.createElement('article'); card.className='fragment-card';
+    card.innerHTML='<div class="fragment-thumb scene-'+sc.bg+'"><span class="film-mark">&#9654;</span></div><div class="fragment-info"><b>'+escapeHtml(story.title)+' \u00b7 \u4e16\u754c\u89c2\u7247\u6bb5</b><span>\u57fa\u4e8e\u300c'+escapeHtml(seed||story.title)+'\u300d\u751f\u6210\u7684\u52a8\u6001\u5185\u5bb9\u7d20\u6750</span><button type="button">\u64ad\u653e\u9884\u89c8</button></div>';
+    var thumb=card.querySelector('.fragment-thumb'), btn=card.querySelector('button');
+    function toggle(){thumb.classList.toggle('is-playing');btn.textContent=thumb.classList.contains('is-playing')?'\u6682\u505c\u9884\u89c8':'\u64ad\u653e\u9884\u89c8';}
+    thumb.addEventListener('click',toggle); btn.addEventListener('click',toggle); fragmentGrid.prepend(card); fragmentEmpty.style.display='none';
+  }
+  genBtn.addEventListener('click',function(){
+    var text=storyInput.value.trim()||'\u4eca\u5929\u7684\u966a\u4f34'; generate(text); createFragment(currentStory,text); appendChat('pet','\u6211\u628a\u300c'+text+'\u300d\u6574\u7406\u6210\u4e00\u6bb5\u4e16\u754c\u89c2\u89c6\u9891\u7d20\u6750\u4e86\uff0c\u70b9\u5361\u7247\u53ef\u4ee5\u64ad\u653e\u9884\u89c8\u3002'); storyInput.value='';
+  });
+  sendBtn.addEventListener('click',sendMessage);
+  storyInput.addEventListener('keydown',function(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMessage();}});
+  document.querySelectorAll('.action-btn').forEach(function(btn){btn.addEventListener('click',function(){var action=btn.getAttribute('data-action'); applyPose(action); addBond(4); appendChat('user',btn.textContent.trim()); window.setTimeout(function(){appendChat('pet',replyFor(btn.textContent,action));},120);});});
+  document.querySelectorAll('.tpl button').forEach(function(b){b.addEventListener('click',function(){storyInput.value=b.textContent;sendMessage();});});
   prevBtn.addEventListener('click',function(){if(currentStory){stop();playScene(Math.max(0,sceneIdx-1));}});
   nextBtn.addEventListener('click',function(){if(currentStory){stop();playScene(Math.min(currentStory.scenes.length-1,sceneIdx+1));}});
   playBtn.addEventListener('click',function(){
